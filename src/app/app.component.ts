@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, VERSION } from '@angular/core';
 import { NgSwitch, NgSwitchDefault, NgSwitchCase } from '@angular/common';
 
 @Component({
@@ -9,5 +9,6 @@ import { NgSwitch, NgSwitchDefault, NgSwitchCase } from '@angular/common';
     imports: [NgSwitch, NgSwitchDefault, NgSwitchCase]
 })
 export class AppComponent {
-  title = 'MyApp';
+  version = VERSION.full;
+  title = `Angular - ${this.version}`;
 }
