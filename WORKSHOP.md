@@ -205,3 +205,18 @@ Now let's put it quickly to test, let's open our `app.component.html` and add th
  Now that we have Tailwind installed, let's say goodbye to the default Angular page and start building the Movies app UI
 
  
+### Add the basic UI
+
+One project that I love very much is the *Astro* web framework (https://astro.build/). It is another great choice for building fast and responsive applications and I was fascinated by their example app *Astro Movies* (https://astro-movies.pages.dev/) which boast superb performance. I wanted to have something simlar build with Angular so let's go for it :)
+
+Let's head to Tailwind UI and grab some of their designs ( it has a paid version that I highly recommend but for our example the free version should suffice).
+
+Now if you have not already I want to create a new branch and give it an intutive name such as `addTailwinUI`.
+
+Next open up `app.component.html`, select everything and delete it - yes you heard right delete everything on that page. Now type in 
+
+```js
+<routeroutlet></router-outlet>
+```
+
+then save the file.
