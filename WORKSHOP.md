@@ -144,5 +144,64 @@ This will trigger the Angular compilation process and will by default serve your
 
 Go ahead and use `cmd + click ` on the link provided in the terminal and now the app will open in a new window. The terminal session will be on watch and any changes you make will update instantly and be reflected on your view.
 
+## Making it pretty
 
+We need to make our application look pretty and CSS is in charge of aesthetics in the world os the web. I have been writing CSS for more than 20 years, but I have to hand it to frameworks like Bootstrap that have made it way more convenient to write styles for all browsers in a fast and scalable way.
 
+Nowadays though, I have opted for Tailwind CSS as my go to library to put together any kind of responsive user interface.
+
+i will steer away from any debates around this choice, lol, but for this workshop we will look at how to work with Tailwind in Angular
+
+### Install Tailwind
+
+To install Tailwind we can open our integrated terminal again and type the following command
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+```
+
+then we can initialize Tailwind with the following command
+
+```bash
+npx tailwindcss init -p
+```
+
+this will create a `tailwind.config.ts` file at the root of the project. Let's go ahead and open it and add the following under the content key:
+
+```typescript
+module.exports = {
+  content: [
+    "./src/**/*.{html,ts}",
+  ]
+```
+This tells tailwind to target all files under our `src` folder that have either an `html` or `ts` extension
+
+One last thing is to open your gloabal CSS file `styles.css` and add the following:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+or
+
+```css
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+```
+Now let's put it quickly to test, let's open our `app.component.html` and add the following to the Resources header tag:
+
+```html
+ <h2 class="text-3xl font-bold underline">Resources</h2>
+ ```
+
+ Now when we looked at the served app we can see the changes applied to the header tag which indicates that we have now all the magic of Tailwind at our fingertips.
+
+ Befor we close on this section let's add a couple helper extensions. Open the activity bar and click on the extensions icon and search for `tailwind`. We are looking for `tailwind intellisense` and `headwind` (show their icons) once you see them have them installed and when finished go back to your added classes and hover on those. 
+
+ Now you will see that as you hover on each it will show you the actual class definition for each, pretty sweet huh. One more thing add one class at the end by typing `w-f` you have now suggestions due to the intellisense kicking in and when you done typing, you might see the classes rearranging per the rules of your `hailwind` config. 
+
+ Now that we have Tailwind installed, let's say goodbye to the default Angular page and start building the Movies app UI
+
+ 
