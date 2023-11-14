@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { ListParams } from '../data-types';
 import { removeEmptyFields } from '../utils';
 
-const PROXY_URL = 'https://2a1d-2600-1700-ce1-6600-293c-c97f-ac71-9a32.ngrok-free.app';
+const PROXY_URL = 'https://api.z2h.ngrok.app';
 const headers = new HttpHeaders().set('ngrok-skip-browser-warning', 'true')
 
 @Injectable({
@@ -21,8 +21,7 @@ export class ApiConnectService {
     const type = params.get('type');
     const collection = params.get('collection');
     return this.http.get<Media[]>(`${PROXY_URL}/api/collection/${type}/${collection}`, {
-      headers: headers,
-      params: new HttpParams().set('page', '1')
+      headers: headers
     });
   }
 

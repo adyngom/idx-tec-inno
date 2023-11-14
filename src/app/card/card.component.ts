@@ -1,26 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { Media, TMDB_IMAGES_PATH } from '../data-types';
+
 
 @Component({
-  selector: 'app-card',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <!-- component -->
-<!-- Add the variant -->
-  <!-- variants: {
-    extend: {
-      translate: ['group-hover'],
-    }
-  }, -->
-
-  <!-- Soon review at https://moviedate.netlify.app/ -->
-
+    selector: 'app-card',
+    standalone: true,
+    imports: [CommonModule, RouterLink],
+    template: `
 <div class="mb-8">
-    <div class='flex overflow-hidden w-full max-w-sm bg-transparent rounded-lg shadow-md'>
+    <div class='flex overflow-hidden w-full max-w-sm bg-transparent shadow-md'>
         <div class='w-2 bg-gray-800'></div>
 
-<div class="overflow-hidden relative text-white rounded-xl shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-2 hover:shadow-2xl movie-item movie-card" data-movie-id="438631">
+<div class="overflow-hidden relative text-white shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-2 hover:shadow-2xl movie-item movie-card" data-movie-id="438631">
     <div class="absolute inset-0 z-10 bg-gradient-to-t from-black via-gray-900 to-transparent transition duration-300 ease-in-out"></div>
     <div class="relative z-10 px-10 pt-10 space-y-6 cursor-pointer group movie_info" data-lity="" href="https://www.youtube.com/embed/aSHs224Dge0">
         <div class="w-full poster__info align-self-end">
@@ -28,36 +21,42 @@ import { CommonModule } from '@angular/common';
             <div class="space-y-6 detail_info">
                 <div class="flex flex-col space-y-2 inner">
                     
-                    <h3 class="text-2xl font-bold text-white" data-unsp-sanitized="clean">Dune</h3>
-                    <div class="mb-0 text-lg text-gray-400">Beyond fear, destiny awaits.</div>
+                    <h3 class="text-2xl font-bold text-white" data-unsp-sanitized="clean">{{movie.title ? movie.title : movie.name}}</h3>
+                    <div class="mb-0 text-lg text-gray-400">{{movie.tagline ?? 'Beyond fear, destiny awaits.'}}</div>
                 </div>
                 <div class="flex flex-row justify-between datos">
                     <div class="flex flex-col datos_col">
-                        <div class="popularity">440.052</div>
+                        <div class="popularity">{{movie.popularity}}</div>
                         <div class="text-sm text-gray-400">Popularity:</div>
                     </div>
+                    @if( movie.release_date ) {
                     <div class="flex flex-col datos_col">
-                        <div class="release">2021-09-15</div>
+                        <div class="release">{{movie.release_date}}</div>
                         <div class="text-sm text-gray-400">Release date:</div>
                     </div>
+                    } @else if (movie.first_air_date) {
+                        <div class="flex flex-col datos_col">
+                            <div class="release">{{movie.first_air_date}}</div>
+                            <div class="text-sm text-gray-400">First air date:</div>
+                        </div>
+                    }
+                    
                     <div class="flex flex-col datos_col">
-                        <div class="release">155 min</div>
-                        <div class="text-sm text-gray-400">Runtime:</div>
+                        <div class="release">{{movie.vote_average | number: '1.0-0'}} / 10</div>
+                        <div class="text-sm text-gray-400">Ratings:</div>
                     </div>
                 </div>
                 <div class="flex flex-col overview">
                     <div class="flex flex-col"></div>
                     <div class="mb-2 text-xs text-gray-400">Overview:</div>
                     <p class="mb-6 text-xs text-gray-100">
-                        Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding, must travel to the most dangerous planet in the universe to ensure the future of his family and his people. As
-                        malevolent forces explode into conflict over the planet's exclusive supply of the most precious resource in existence-a commodity capable of unlocking humanity's greatest potential-only those who can conquer their
-                        fear will survive.
+                        {{movie.overview}}
                     </p>
                 </div>
             </div>
         </div>
     </div>
-    <img class="absolute inset-0 w-full transform -translate-y-4" src="http://image.tmdb.org/t/p/w342/s1FhMAr91WL8D5DeHOcuBELtiHJ.jpg" style="filter: grayscale(0);" />
+    <img class="absolute inset-0 w-full transform -translate-y-4" [src]="api_url + movie.poster_path" alt="{{movie.title}}" style="filter: grayscale(0);" />
     <div class="flex relative z-10 flex-row pb-10 space-x-4 poster__footer">
         <a
             class="flex items-center px-4 py-2 mx-auto text-white bg-red-500 rounded-full hover:bg-red-700"
@@ -76,9 +75,14 @@ import { CommonModule } from '@angular/common';
     </div>
 </div>
   `,
-  styles: [
-  ]
+    styles: [
+    ],
+    providers: [
+        { provide: TMDB_IMAGES_PATH, useValue: { poster_path: 'https://image.tmdb.org/t/p/w500' } },
+    ]
 })
 export class CardComponent {
-
+    private router = inject(Router);
+    protected api_url = inject(TMDB_IMAGES_PATH).poster_path;
+    @Input({ required: true }) movie: Media = {} as Media;
 }

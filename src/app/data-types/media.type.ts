@@ -10,12 +10,16 @@ export interface Media {
   overview: string
   popularity: number
   poster_path: string
-  release_date: string
+  release_date?: string
+  first_air_date?: string
   title: string
   video: boolean
   vote_average: number
   vote_count: number,
   viewTransitionName?: string
+  tagline?: string
+  name?: string
+  media_type?: string
 }
 
 export interface API_IMGS_PATH {
