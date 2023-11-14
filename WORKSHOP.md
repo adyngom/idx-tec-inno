@@ -328,8 +328,31 @@ Looks nicer yes? Now that we have the card component code nicely abstracted, we 
 
 You can see that the page is slowly taking shape but for now we have only static elements on the page. So let's look at how to add our dynamic movies content and show different cards
  
-```js
-<routeroutlet></router-outlet>
-```
+## Dynamic content with data
 
-then save the file.
+To get movies or tv data we will have to talk to a database that stores that or use an API that gives us access to it. We will use the API route and specifically the movies database API. 
+
+In Angular one of the strongest convention in place is to use services to enable additional functionalities to a component thus leaving the component "clean" on its goal of being the bridge to the application logic and the user experience via the view. So the additional functionality will be injected to component which introduces us to dependency injection in Angular.
+
+We will dive deeper on that concept as we go, but for now let's generate our first service. Let's create first a `data-access` folder under the `app` folder and run this command
+
+```bash
+ng generate service data-access/api-connect --dry-run
+```
+It seems like we have the right target and two files will be created so let's run the command without the `--dry-run` flag this time
+
+```bash
+ng generate service data-access/api-connect
+```
+When we open our newly created `api-connect.service.ts` we can see that like the component it is a class but the decorator on top of it this time is an `Injectable`. This will allow Angular to inject it in a component as a dependency.
+
+The config object added to it 
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+```
+tells Angular that tre will be a single instance of this service and that all component that include it will be interacting with this single instance.
+
+
